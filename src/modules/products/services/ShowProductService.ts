@@ -1,0 +1,21 @@
+import { inject, injectable } from 'tsyringe'
+import { ProductsRepository } from '../infra/orm/repositories/ProductsRepository'
+import { IProduct } from '../domain/models/IProduct'
+import AppError from '@shared/errors/AppError'
+
+@injectable()
+export class ShowProductService {
+  constructor(
+    @inject('ProductsRepository')
+    private productsRepository: ProductsRepository,
+  ) {}
+
+  public async executeShowProduct({ id }: IProduct): Promise<IProduct> {
+    const product = await this.productsRepository.findById(id)
+
+    if (!product) {
+      throw new AppError('Product not found')
+    }
+    return product
+  }
+}
