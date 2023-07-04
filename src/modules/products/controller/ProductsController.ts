@@ -1,21 +1,18 @@
-import { validate } from 'class-validator'
 import { Request, Response } from 'express'
 import { ProductsRepository } from '../infra/orm/repositories/ProductsRepository'
 import { container, inject, injectable } from 'tsyringe'
 import { ShowProductService } from '../services/ShowProductService'
+import { CreateProductService } from '../services/CreateProductService'
+import { UpdateProductService } from '../services/UpdateProductService'
+import { RemoveProductService } from '../services/RemoveProductService'
 
-@injectable()
-export class ProductsController {
-  constructor(
-    @inject('ProductsRepository')
-    private productsRepository: ProductsRepository,
-  ) {}
-
-  public async list(request: Request, response: Response): Promise<Response> {
-    const skip = Number(request?.query?.skip) || 0
-    const take = Number(request?.query?.take) || 10
-    const products = await this.productsRepository.getAll({ skip, take })
-    return response.json(products)
+export default class ProductsController {
+  public async list(req: Request, res: Response): Promise<Response> {
+    const skip = Number(req?.query?.skip) || 0
+    const take = Number(req?.query?.take) || 10
+    const productsRepository = container.resolve(ProductsRepository)
+    const products = await productsRepository.getAll({ skip, take })
+    return res.json(products)
   }
 
   public async show(req: Request, res: Response): Promise<Response> {
@@ -23,5 +20,31 @@ export class ProductsController {
     const showProduct = await container.resolve(ShowProductService)
     const product = await showProduct.executeShowProduct({ id })
     return res.json(product)
+  }
+
+  public async create(req: Request, res: Response): Promise<Response> {
+    const { name, price, quantity } = req.body
+    const createProduct = await container.resolve(CreateProductService)
+    const product = await createProduct.executeCreateProduct({
+      name,
+      price,
+      quantity,
+    })
+    return res.json(product)
+  }
+
+  public async update(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params
+    const { data } = req.body
+    const updateProduct = await container.resolve(UpdateProductService)
+    const product = await updateProduct.executeUpdateProduct({ id, data })
+    return res.json(product)
+  }
+
+  public async remove(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params
+    const removeProduct = await container.resolve(RemoveProductService)
+    await removeProduct.executeRemoveProduct({ id })
+    return res.json([])
   }
 }
