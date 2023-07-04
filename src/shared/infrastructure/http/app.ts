@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import 'express-async-errors'
 import cors from 'cors'
 import { errors } from 'celebrate'
-// import routes from './routes'
+import routes from './routes'
 import AppError from '@shared/errors/AppError'
 import '@shared/container'
 //import uploadConfig from '@config/upload'
@@ -16,7 +16,7 @@ app.use(express.json())
 //app.use(rateLimiter)
 
 //app.use('/files', express.static(uploadConfig.directory))
-// app.use(routes)
+app.use(routes)
 
 app.use(errors())
 

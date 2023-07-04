@@ -1,6 +1,6 @@
 import { ICreateProduct } from '@modules/products/domain/models/ICreateProduct'
-import { IProductPaginate } from '@modules/products/domain/models/IProductPaginate'
-import { ISearchParam } from '@modules/products/domain/models/ISearchParam'
+import { IFindProduct } from '@modules/products/domain/models/IFindProduct'
+import { IListProduct } from '@modules/products/domain/models/IListProduct'
 import { IUpdateProduct } from '@modules/products/domain/models/IUpdateProduct'
 import {
   IProductsRepository,
@@ -32,7 +32,7 @@ export class ProductsRepository implements IProductsRepository {
     return product
   }
 
-  public async findById(id: string): Promise<Product | null> {
+  public async findById({ id }: IFindProduct): Promise<Product | null> {
     const product = await this.prisma.product.findUnique({
       where: {
         id,
@@ -51,16 +51,25 @@ export class ProductsRepository implements IProductsRepository {
     return product
   }
 
-  public async findAll({
-    skip,
-    take,
-  }: SearchParams): Promise<IProductPaginate> {
+  public async getAll({ skip, take }: SearchParams): Promise<IListProduct> {
     const [products, total] = await this.prisma.$transaction([
       this.prisma.product.findMany({
-        select: {},
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          quantity: true,
+        },
+        skip,
+        take,
       }),
+      this.prisma.product.count(),
     ])
-    return product
+
+    const totalPage = Math.ceil(total / take)
+    const result = { totalPage, total, products }
+
+    return result
   }
 
   public async update({ id, data }: IUpdateProduct): Promise<Product> {
@@ -73,7 +82,7 @@ export class ProductsRepository implements IProductsRepository {
     return product
   }
 
-  public async remove({ id }: Product): Promise<void> {
+  public async remove(id: string): Promise<void> {
     await this.prisma.product.delete({
       where: {
         id,

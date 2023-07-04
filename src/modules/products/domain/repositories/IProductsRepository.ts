@@ -2,19 +2,19 @@ import { Product } from '@prisma/client'
 import { ICreateProduct } from '../models/ICreateProduct'
 import { IProduct } from '../models/IProduct'
 import { IUpdateProduct } from '../models/IUpdateProduct'
-import { IProductPaginate } from '../models/IProductPaginate'
+import { IListProduct } from '../models/IListProduct'
+import { IFindProduct } from '../models/IFindProduct'
 
-export type SearchParams = {
-  page: number
+export interface SearchParams {
   skip: number
   take: number
 }
 
 export interface IProductsRepository {
   create(data: ICreateProduct): Promise<IProduct>
-  findById(id: string): Promise<Product | null>
+  findById({ id }: IFindProduct): Promise<Product | null>
   findByName(name: string): Promise<Product | null>
-  remove({ id }: Product): Promise<void>
-  update({ id, name, price, quantity }: IUpdateProduct): Promise<Product>
-  findAll({ page, skip, take }: SearchParams): Promise<IProductPaginate>
+  remove(id: string): Promise<void>
+  update({ id, data }: IUpdateProduct): Promise<Product>
+  getAll({ skip, take }: SearchParams): Promise<IListProduct>
 }

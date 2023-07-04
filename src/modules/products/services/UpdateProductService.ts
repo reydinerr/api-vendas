@@ -13,17 +13,17 @@ export class UpdateProductService {
 
   public async executeUpdateProduct({
     id,
-    name,
-    price,
-    quantity,
+    data,
   }: IUpdateProduct): Promise<IProduct> {
-    const productIdExists = await this.productsRepository.findById(id)
+    const productIdExists = await this.productsRepository.findById({ id })
 
     if (!productIdExists) {
       throw new AppError('Product not found')
     }
 
-    const productNameExists = await this.productsRepository.findByName(name)
+    const productNameExists = await this.productsRepository.findByName(
+      data.name,
+    )
 
     if (productNameExists) {
       throw new AppError('Product with name already exists')
@@ -31,9 +31,7 @@ export class UpdateProductService {
 
     const product = await this.productsRepository.update({
       id,
-      name,
-      price,
-      quantity,
+      data,
     })
     return product
   }
