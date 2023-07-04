@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { ProductsRepository } from '../infra/orm/repositories/ProductsRepository'
-import { container, inject, injectable } from 'tsyringe'
+import { container } from 'tsyringe'
 import { ShowProductService } from '../services/ShowProductService'
 import { CreateProductService } from '../services/CreateProductService'
 import { UpdateProductService } from '../services/UpdateProductService'
