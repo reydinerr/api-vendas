@@ -1,3 +1,3 @@
-export interface IFindProduct {
+export interface IFindProductId {
   id: string
 }

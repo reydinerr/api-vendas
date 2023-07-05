@@ -1,8 +1,6 @@
 export interface IUpdateProduct {
   id: string
-  data: {
-    name: string
-    price: number
-    quantity: number
-  }
+  name: string
+  price?: number
+  quantity?: number
 }
