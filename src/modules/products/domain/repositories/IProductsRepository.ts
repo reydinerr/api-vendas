@@ -12,7 +12,7 @@ export interface SearchParams {
 export interface IProductsRepository {
   create(data: Prisma.ProductCreateInput): Promise<IProduct>
   findById({ id }: IFindProductId): Promise<Product | null>
-  //findByName({ name }: IFindProductName): Promise<Product | null>
+  findByName(name: string): Promise<Product | null>
   remove(id: string): Promise<void>
   update({ id, name, price, quantity }: IUpdateProduct): Promise<Product>
   getAll({ skip, take }: SearchParams): Promise<IListProduct>
