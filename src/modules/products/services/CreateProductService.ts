@@ -1,8 +1,8 @@
 import { injectable, inject } from 'tsyringe'
-import { ICreateProduct } from '../domain/models/ICreateProduct'
 import { IProduct } from '../domain/models/IProduct'
 import AppError from '@shared/errors/AppError'
 import { ProductsRepository } from '../infra/repositories/ProductsRepository'
+import { ICreateProduct } from '../domain/models/ICreateProduct'
 
 @injectable()
 export class CreateProductService {
@@ -16,6 +16,7 @@ export class CreateProductService {
     quantity,
   }: ICreateProduct): Promise<IProduct> {
     const productExists = await this.productsRepository.findByName(name)
+
     if (productExists) {
       throw new AppError('Product with name already exists')
     }

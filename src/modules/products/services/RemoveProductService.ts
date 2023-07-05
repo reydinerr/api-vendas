@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe'
 import { ProductsRepository } from '../infra/repositories/ProductsRepository'
 import AppError from '@shared/errors/AppError'
-import { IFindProduct } from '../domain/models/IFindProduct'
+import { IFindProductId } from '../domain/models/IFindProduct'
 
 @injectable()
 export class RemoveProductService {
@@ -10,7 +10,7 @@ export class RemoveProductService {
     private productsRepository: ProductsRepository,
   ) {}
 
-  public async executeRemoveProduct({ id }: IFindProduct): Promise<void> {
+  public async executeRemoveProduct({ id }: IFindProductId): Promise<void> {
     const productExists = await this.productsRepository.findById({ id })
 
     if (!productExists) {

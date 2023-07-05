@@ -1,8 +1,8 @@
 import { inject, injectable } from 'tsyringe'
 import { ProductsRepository } from '../infra/repositories/ProductsRepository'
-import { IProduct } from '../domain/models/IProduct'
 import AppError from '@shared/errors/AppError'
 import { IUpdateProduct } from '../domain/models/IUpdateProduct'
+import { Product } from '@prisma/client'
 
 @injectable()
 export class UpdateProductService {
@@ -13,17 +13,15 @@ export class UpdateProductService {
 
   public async executeUpdateProduct({
     id,
-    data,
-  }: IUpdateProduct): Promise<IProduct> {
+    name,
+  }: IUpdateProduct): Promise<Product> {
     const productIdExists = await this.productsRepository.findById({ id })
 
     if (!productIdExists) {
       throw new AppError('Product not found')
     }
 
-    const productNameExists = await this.productsRepository.findByName(
-      data.name,
-    )
+    const productNameExists = await this.productsRepository.findByName(name)
 
     if (productNameExists) {
       throw new AppError('Product with name already exists')
@@ -31,7 +29,7 @@ export class UpdateProductService {
 
     const product = await this.productsRepository.update({
       id,
-      data,
+      name,
     })
     return product
   }
