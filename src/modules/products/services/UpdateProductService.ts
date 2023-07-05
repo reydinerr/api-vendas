@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe'
-import { ProductsRepository } from '../infra/orm/repositories/ProductsRepository'
+import { ProductsRepository } from '../infra/repositories/ProductsRepository'
 import { IProduct } from '../domain/models/IProduct'
 import AppError from '@shared/errors/AppError'
 import { IUpdateProduct } from '../domain/models/IUpdateProduct'
