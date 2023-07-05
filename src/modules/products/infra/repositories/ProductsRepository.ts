@@ -1,5 +1,5 @@
 import { ICreateProduct } from '@modules/products/domain/models/ICreateProduct'
-import { IFindProduct } from '@modules/products/domain/models/IFindProduct'
+import { IFindProductId } from '@modules/products/domain/models/IFindProduct'
 import { IListProduct } from '@modules/products/domain/models/IListProduct'
 import { IUpdateProduct } from '@modules/products/domain/models/IUpdateProduct'
 import {
@@ -10,6 +10,7 @@ import { PrismaClient, Product } from '@prisma/client'
 
 export class ProductsRepository implements IProductsRepository {
   private prisma = new PrismaClient()
+
   public async create({
     name,
     price,
@@ -26,7 +27,7 @@ export class ProductsRepository implements IProductsRepository {
     return product
   }
 
-  public async findById({ id }: IFindProduct): Promise<Product | null> {
+  public async findById({ id }: IFindProductId): Promise<Product | null> {
     const product = await this.prisma.product.findUnique({
       where: {
         id,
@@ -66,12 +67,21 @@ export class ProductsRepository implements IProductsRepository {
     return result
   }
 
-  public async update({ id, data }: IUpdateProduct): Promise<Product> {
+  public async update({
+    id,
+    name,
+    price,
+    quantity,
+  }: IUpdateProduct): Promise<Product> {
     const product = await this.prisma.product.update({
       where: {
         id,
       },
-      data,
+      data: {
+        name,
+        price,
+        quantity,
+      },
     })
     return product
   }
