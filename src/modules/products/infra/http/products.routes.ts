@@ -1,4 +1,4 @@
-import ProductsController from '@modules/products/controller/ProductsController'
+import ProductsController from '@modules/products/infra/controller/ProductsController'
 import { Segments, Joi, celebrate } from 'celebrate'
 import { Router } from 'express'
 

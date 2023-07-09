@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
-import { ProductsRepository } from '../infra/repositories/ProductsRepository'
+import { ProductsRepository } from '../../infra/repositories/ProductsRepository'
 import { container } from 'tsyringe'
-import { ShowProductService } from '../services/ShowProductService'
-import { CreateProductService } from '../services/CreateProductService'
-import { UpdateProductService } from '../services/UpdateProductService'
-import { RemoveProductService } from '../services/RemoveProductService'
+import { ShowProductService } from '../../services/ShowProductService'
+import { CreateProductService } from '../../services/CreateProductService'
+import { UpdateProductService } from '../../services/UpdateProductService'
+import { RemoveProductService } from '../../services/RemoveProductService'
 
 export default class ProductsController {
   public async list(req: Request, res: Response): Promise<Response> {
