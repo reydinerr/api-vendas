@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { ProductsRepository } from '../../infra/repositories/ProductsRepository'
+import { ProductsRepository } from '../repositories/ProductsRepository'
 import { container } from 'tsyringe'
 import { ShowProductService } from '../../services/ShowProductService'
 import { CreateProductService } from '../../services/CreateProductService'

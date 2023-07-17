@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 import { UsersRepository } from '../repositories/UsersRepository'
 import { CreateUserService } from '@modules/user/services/CreateUserService'
+import { ShowUserService } from '@modules/user/services/ShowUserService'
 
 export default class UsersController {
   public async list(req: Request, res: Response): Promise<Response> {
@@ -12,6 +13,13 @@ export default class UsersController {
     return res.json(users)
   }
 
+  public async show(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params
+    const showUser = await container.resolve(ShowUserService)
+    const user = await showUser.executeShowUser({ id })
+    return res.json(user)
+  }
+
   public async create(req: Request, res: Response): Promise<Response> {
     const data = req.body
     const createUser = await container.resolve(CreateUserService)
@@ -20,11 +28,4 @@ export default class UsersController {
     })
     return res.json(user)
   }
-
-  // public async remove(req: Request, res: Response): Promise<Response> {
-  //   const { id } = req.params
-  //   const removeUser = await container.resolve(RemoveUserservice)
-  //   await removeUser.executeRemoveUser({ id })
-  //   return res.json([])
-  // }
 }

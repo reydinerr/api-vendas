@@ -15,6 +15,6 @@ export interface IUsersRepository {
   findByCpf(cpf: string): Promise<IUser | null>
   findByEmail(email: string): Promise<IUser | null>
   remove(id: string): Promise<void>
-  update({ id, data }: IUpdateUserProfile): Promise<IUser>
+  update({ id, email, password }: IUpdateUserProfile): Promise<IUser>
   getAll({ skip, take }: SearchParams): Promise<IListUser>
 }

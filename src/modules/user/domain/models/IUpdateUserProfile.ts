@@ -1,8 +1,11 @@
 export interface IUpdateUserProfile {
   id: string
-  data: {
-    email: string
-    password: string
-    old_password: string
-  }
+  email: string
+  old_password?: string
+  password?: string
+}
+export interface IUpdateUserProfileInput {
+  id: string
+  email: string
+  password?: string
 }

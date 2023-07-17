@@ -4,7 +4,7 @@ export interface IUser {
   email: string
   age: number
   cpf: string
-  password?: string
+  password: string
   avatar: string | null
   created_at: Date
   updated_at: Date

@@ -18,7 +18,6 @@ usersRouter.get(
   }),
   usersController.show,
 )
-
 usersRouter.post(
   '/create',
   celebrate({
@@ -32,35 +31,5 @@ usersRouter.post(
   }),
   usersController.create,
 )
-
-usersRouter.put(
-  '/update/:id',
-  isAuthenticated,
-  celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().uuid().required(),
-    },
-  }),
-  celebrate({
-    [Segments.BODY]: {
-      data: {
-        email: Joi.string().required(),
-        password: Joi.string().required(),
-        old_password: Joi.string().required(),
-      },
-    },
-  }),
-  usersController.update,
-)
-
-// usersRouter.delete(
-//   '/:id',
-//   celebrate({
-//     [Segments.PARAMS]: {
-//       id: Joi.string().uuid().required(),
-//     },
-//   }),
-//   usersController.remove,
-// )
 
 export default usersRouter

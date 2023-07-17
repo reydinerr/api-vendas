@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe'
 import { ProductsRepository } from '../infra/repositories/ProductsRepository'
-import AppError from '@shared/errors/AppError'
+import { NotFoundError } from '@shared/errors/AppError'
 import { IFindProductId } from '../domain/models/IFindProduct'
 
 @injectable()
@@ -14,7 +14,7 @@ export class RemoveProductService {
     const productExists = await this.productsRepository.findById({ id })
 
     if (!productExists) {
-      throw new AppError('Product not found')
+      throw new NotFoundError('Product not found')
     }
     const product = await this.productsRepository.remove(id)
     return product
