@@ -1,4 +1,4 @@
-import AppError from '@shared/errors/AppError'
+import { AppError, UnauthorizedError } from '@shared/errors/AppError'
 import { NextFunction, Request, Response } from 'express'
 import { Secret, verify } from 'jsonwebtoken'
 import authConfig from '@config/auth'
@@ -16,7 +16,7 @@ export default function isAuthenticated(
   const authHeader = req.headers.authorization
 
   if (!authHeader) {
-    throw new AppError('Token JWT not found!')
+    throw new UnauthorizedError('Token JWT not found!')
   }
   const [, token] = authHeader.split(' ')
 
@@ -28,7 +28,7 @@ export default function isAuthenticated(
       id: sub,
     }
 
-    return next()
+    next()
   } catch {
     throw new AppError('Invalid JWT Token')
   }
