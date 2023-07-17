@@ -7,7 +7,7 @@ import {
   IUsersRepository,
   SearchParams,
 } from '@modules/user/domain/repositories/IUsersRepository'
-import { PrismaClient, User } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 
 export class UsersRepository implements IUsersRepository {
   private prisma = new PrismaClient()
@@ -20,7 +20,7 @@ export class UsersRepository implements IUsersRepository {
     return user
   }
 
-  public async findById({ id }: IFindUserId): Promise<User | null> {
+  public async findById({ id }: IFindUserId): Promise<IUser | null> {
     const user = await this.prisma.user.findUnique({
       where: {
         id,
@@ -30,7 +30,7 @@ export class UsersRepository implements IUsersRepository {
     return user
   }
 
-  public async findByCpf(cpf: string): Promise<User | null> {
+  public async findByCpf(cpf: string): Promise<IUser | null> {
     const user = await this.prisma.user.findUnique({
       where: {
         cpf,
@@ -40,7 +40,7 @@ export class UsersRepository implements IUsersRepository {
     return user
   }
 
-  public async findByEmail(email: string): Promise<User | null> {
+  public async findByEmail(email: string): Promise<IUser | null> {
     const user = await this.prisma.user.findUnique({
       where: {
         email,
@@ -73,12 +73,19 @@ export class UsersRepository implements IUsersRepository {
     return result
   }
 
-  public async update({ id, data }: IUpdateUserProfile): Promise<User> {
+  public async update({
+    id,
+    email,
+    password,
+  }: IUpdateUserProfile): Promise<IUser> {
     const user = await this.prisma.user.update({
       where: {
         id,
       },
-      data,
+      data: {
+        email,
+        password,
+      },
     })
     return user
   }
