@@ -8,16 +8,6 @@ const usersController = new UsersController()
 
 usersRouter.get('/', isAuthenticated, usersController.list)
 
-usersRouter.get(
-  '/:id',
-  isAuthenticated,
-  celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().uuid().required(),
-    },
-  }),
-  usersController.show,
-)
 usersRouter.post(
   '/create',
   celebrate({
