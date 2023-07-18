@@ -1,5 +1,9 @@
 import { inject, injectable } from 'tsyringe'
-import { AppError, NotFoundError } from '@shared/errors/AppError'
+import {
+  AppError,
+  NotFoundError,
+  UnauthorizedError,
+} from '@shared/errors/AppError'
 import { IUpdateUserProfile } from '../domain/models/IUpdateUserProfile'
 import { UsersRepository } from '../infra/repositories/UsersRepository'
 import { IUser } from '../domain/models/IUser'
@@ -36,6 +40,10 @@ export class UpdateUserService {
       throw new AppError('Old password is required!')
     }
 
+    if (password === old_password) {
+      throw new AppError('New password cannot be the same as the old one')
+    }
+
     if (password && old_password) {
       const checkCurrentPassword = await this.hashProvider.compareHash(
         old_password,
@@ -43,7 +51,7 @@ export class UpdateUserService {
       )
 
       if (!checkCurrentPassword) {
-        throw new AppError('Old password is not match!')
+        throw new UnauthorizedError('Old password is not match!')
       }
 
       const hashedPassword = await this.hashProvider.generateHash(password)
