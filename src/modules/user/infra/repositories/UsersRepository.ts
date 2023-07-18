@@ -1,5 +1,5 @@
 import { ICreateUser } from '@modules/user/domain/models/ICreateUser'
-import { IFindUserId } from '@modules/user/domain/models/IFindUser'
+import { IFindUser, IFindUserId } from '@modules/user/domain/models/IFindUser'
 import { IListUser } from '@modules/user/domain/models/IListUser'
 import { IUpdateUserProfile } from '@modules/user/domain/models/IUpdateUserProfile'
 import { IUser, IUserReturn } from '@modules/user/domain/models/IUser'
@@ -31,30 +31,74 @@ export class UsersRepository implements IUsersRepository {
     return user
   }
 
-  public async findById({ id }: IFindUserId): Promise<IUser | null> {
+  public async findById({ id }: IFindUserId): Promise<IUserReturn | null> {
     const user = await this.prisma.user.findUnique({
       where: {
         id,
       },
-    })
-
-    return user
-  }
-
-  public async findByCpf(cpf: string): Promise<IUser | null> {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        cpf,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        cpf: true,
+        age: true,
+        password: false,
+        avatar: true,
+        created_at: true,
+        updated_at: true,
       },
     })
 
     return user
   }
 
-  public async findByEmail(email: string): Promise<IUser | null> {
+  public async findByCpf(cpf: string): Promise<IUserReturn | null> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        cpf,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        cpf: true,
+        age: true,
+        password: false,
+        avatar: true,
+        created_at: true,
+        updated_at: true,
+      },
+    })
+
+    return user
+  }
+
+  public async findByEmail(email: string): Promise<IUserReturn | null> {
     const user = await this.prisma.user.findUnique({
       where: {
         email,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        cpf: true,
+        age: true,
+        password: false,
+        avatar: true,
+        created_at: true,
+        updated_at: true,
+      },
+    })
+
+    return user
+  }
+  public async findUser({ id, email, cpf }: IFindUser): Promise<IUser | null> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+        email,
+        cpf,
       },
     })
 
@@ -88,7 +132,7 @@ export class UsersRepository implements IUsersRepository {
     id,
     email,
     password,
-  }: IUpdateUserProfile): Promise<IUser> {
+  }: IUpdateUserProfile): Promise<IUserReturn> {
     const user = await this.prisma.user.update({
       where: {
         id,
@@ -96,6 +140,17 @@ export class UsersRepository implements IUsersRepository {
       data: {
         email,
         password,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        cpf: true,
+        age: true,
+        password: false,
+        avatar: true,
+        created_at: true,
+        updated_at: true,
       },
     })
     return user

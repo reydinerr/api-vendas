@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe'
 import { AppError } from '@shared/errors/AppError'
 import { UsersRepository } from '../infra/repositories/UsersRepository'
 import { ICreateUser } from '../domain/models/ICreateUser'
-import { IUser, IUserReturn } from '../domain/models/IUser'
+import { IUserReturn } from '../domain/models/IUser'
 import BcryptHashProvider from '../provider/HashProvider/implementations/BcryptHashProvider'
 
 @injectable()

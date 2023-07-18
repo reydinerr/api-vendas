@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe'
 import { NotFoundError } from '@shared/errors/AppError'
 import { UsersRepository } from '../infra/repositories/UsersRepository'
-import { IUser } from '../domain/models/IUser'
+import { IUserReturn } from '../domain/models/IUser'
 import { IFindUserId } from '../domain/models/IFindUser'
 
 @injectable()
@@ -11,7 +11,7 @@ export class ShowUserProfileService {
     private usersRepository: UsersRepository,
   ) {}
 
-  public async executeShowUser({ id }: IFindUserId): Promise<IUser> {
+  public async executeShowUser({ id }: IFindUserId): Promise<IUserReturn> {
     const user = await this.usersRepository.findById({ id })
 
     if (!user) {

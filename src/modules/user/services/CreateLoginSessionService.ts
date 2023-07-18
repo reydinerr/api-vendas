@@ -19,7 +19,7 @@ export class CreateLoginService {
     email,
     password,
   }: ICreateSession): Promise<IUserAuthenticated> {
-    const user = await this.usersRepository.findByEmail(email)
+    const user = await this.usersRepository.findUser({ email })
 
     if (!user) {
       throw new UnauthorizedError('Incorrect email/password combination')

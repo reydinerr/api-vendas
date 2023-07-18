@@ -6,7 +6,7 @@ import {
 } from '@shared/errors/AppError'
 import { IUpdateUserProfile } from '../domain/models/IUpdateUserProfile'
 import { UsersRepository } from '../infra/repositories/UsersRepository'
-import { IUser } from '../domain/models/IUser'
+import { IUserReturn } from '../domain/models/IUser'
 import BcryptHashProvider from '../provider/HashProvider/implementations/BcryptHashProvider'
 
 @injectable()
@@ -23,8 +23,8 @@ export class UpdateUserService {
     email,
     password,
     old_password,
-  }: IUpdateUserProfile): Promise<IUser> {
-    const user = await this.usersRepository.findById({ id })
+  }: IUpdateUserProfile): Promise<IUserReturn> {
+    const user = await this.usersRepository.findUser({ id })
 
     if (!user) {
       throw new NotFoundError('User not found')
