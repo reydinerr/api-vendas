@@ -8,7 +8,7 @@ const errorMiddleware = (
   response: Response,
   next: NextFunction,
 ) => {
-  console.info(error)
+  console.error(error)
 
   const statusCode = error.statusCode ?? 500
   const message = error.statusCode ? error.message : 'Internal Server Error'
