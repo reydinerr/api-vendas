@@ -43,5 +43,14 @@ model UserToken {
 
   @@map("users_tokens")
 }
+model Costumer {
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("costumers")
+}
 
 
