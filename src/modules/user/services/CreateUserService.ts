@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe'
 import { AppError } from '@shared/errors/AppError'
 import { UsersRepository } from '../infra/repositories/UsersRepository'
 import { ICreateUser } from '../domain/models/ICreateUser'
-import { IUser } from '../domain/models/IUser'
+import { IUser, IUserReturn } from '../domain/models/IUser'
 import BcryptHashProvider from '../provider/HashProvider/implementations/BcryptHashProvider'
 
 @injectable()
@@ -13,7 +13,7 @@ export class CreateUserService {
     @inject('HashProvider')
     private hashProvider: BcryptHashProvider,
   ) {}
-  public async executeCreateUser({ data }: ICreateUser): Promise<IUser> {
+  public async executeCreateUser({ data }: ICreateUser): Promise<IUserReturn> {
     const userExists = await this.usersRepository.findByEmail(data.email)
 
     if (userExists) {

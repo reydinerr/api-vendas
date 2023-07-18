@@ -2,7 +2,7 @@ import { ICreateUser } from '@modules/user/domain/models/ICreateUser'
 import { IFindUserId } from '@modules/user/domain/models/IFindUser'
 import { IListUser } from '@modules/user/domain/models/IListUser'
 import { IUpdateUserProfile } from '@modules/user/domain/models/IUpdateUserProfile'
-import { IUser } from '@modules/user/domain/models/IUser'
+import { IUser, IUserReturn } from '@modules/user/domain/models/IUser'
 import {
   IUsersRepository,
   SearchParams,
@@ -12,9 +12,20 @@ import { PrismaClient } from '@prisma/client'
 export class UsersRepository implements IUsersRepository {
   private prisma = new PrismaClient()
 
-  public async create({ data }: ICreateUser): Promise<IUser> {
+  public async create({ data }: ICreateUser): Promise<IUserReturn> {
     const user = await this.prisma.user.create({
       data,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        cpf: true,
+        age: true,
+        password: false,
+        avatar: true,
+        created_at: true,
+        updated_at: true,
+      },
     })
 
     return user

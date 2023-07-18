@@ -28,14 +28,6 @@ profileRouter.put(
   usersProfileController.update,
 )
 
-profileRouter.delete(
-  '/:id',
-  celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().uuid().required(),
-    },
-  }),
-  usersProfileController.remove,
-)
+profileRouter.delete('/', usersProfileController.remove)
 
 export default profileRouter
