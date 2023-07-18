@@ -1,4 +1,4 @@
-import { IUser } from '../models/IUser'
+import { IUser, IUserReturn } from '../models/IUser'
 import { IUpdateUserProfile } from '../models/IUpdateUserProfile'
 import { IFindUserId } from '../models/IFindUser'
 import { ICreateUser } from '../models/ICreateUser'
@@ -10,7 +10,7 @@ export interface SearchParams {
 }
 
 export interface IUsersRepository {
-  create({ data }: ICreateUser): Promise<IUser>
+  create({ data }: ICreateUser): Promise<IUserReturn>
   findById({ id }: IFindUserId): Promise<IUser | null>
   findByCpf(cpf: string): Promise<IUser | null>
   findByEmail(email: string): Promise<IUser | null>
