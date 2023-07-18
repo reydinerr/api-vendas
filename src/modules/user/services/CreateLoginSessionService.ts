@@ -39,6 +39,6 @@ export class CreateLoginService {
       expiresIn: authConfig.jwt.expiresIn,
     })
 
-    return { user, token }
+    return { token }
   }
 }
