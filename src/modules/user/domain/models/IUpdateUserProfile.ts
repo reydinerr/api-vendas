@@ -3,9 +3,5 @@ export interface IUpdateUserProfile {
   email: string
   old_password?: string
   password?: string
-}
-export interface IUpdateUserProfileInput {
-  id: string
-  email: string
-  password?: string
+  avatar?: string | null
 }
