@@ -132,6 +132,7 @@ export class UsersRepository implements IUsersRepository {
     id,
     email,
     password,
+    avatar,
   }: IUpdateUserProfile): Promise<IUserReturn> {
     const user = await this.prisma.user.update({
       where: {
@@ -140,6 +141,7 @@ export class UsersRepository implements IUsersRepository {
       data: {
         email,
         password,
+        avatar,
       },
       select: {
         id: true,
