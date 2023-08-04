@@ -113,6 +113,7 @@ export class UsersRepository implements IUsersRepository {
           name: true,
           email: true,
           cpf: true,
+          avatar: true,
           age: true,
           password: false,
         },

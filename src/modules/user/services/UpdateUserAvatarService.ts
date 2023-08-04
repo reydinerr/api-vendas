@@ -34,7 +34,7 @@ export class UpdateUserAvatarService {
     } else {
       const diskProvider = new DiskStorageProvider()
 
-      if (user.avatar) {
+      if (user.avatar && user.avatar !== null) {
         await diskProvider.deleteFile(user.avatar)
       }
       const file = await diskProvider.saveFile(avatarFile)
