@@ -1,7 +1,6 @@
 import multer, { StorageEngine } from 'multer'
 import path from 'path'
 import crypto from 'crypto'
-
 interface IUploadConfig {
   driver: 's3' | 'disk'
   tmpFolder: string
